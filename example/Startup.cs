@@ -25,10 +25,7 @@ namespace example
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddOptions();
-            // Add our Config object so it can be injected
-            services.Configure<ReverseProxySettings>(Configuration.GetSection("ReverseProxy"));
-            //services.AddSingleton<ReverseProxySettings>();
+            services.AddReverseProxy(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,9 +36,8 @@ namespace example
                 app.UseDeveloperExceptionPage();
             }
 
-            app
-                .UseReverseProxy()
-                .UseMvc();
+            app.UseReverseProxy();
+            app.UseMvc();
         }
     }
 }
